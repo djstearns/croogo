@@ -291,6 +291,9 @@ class UsersController extends UsersAppController {
  */
 	public function index() {
 		$this->set('title_for_layout', __d('croogo', 'Users'));
+		$user = $this->Auth->user();
+		$this->set(compact('user'));
+		$this->set(array('_serialize' => array('user')));
 	}
 
 /**

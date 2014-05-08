@@ -424,6 +424,7 @@ class NodesController extends NodesAppController {
 		$this->_viewFallback(array(
 			'index_' . $type['Type']['alias'],
 		));
+		$this->set(array('_serialize' => array('nodes')));
 	}
 
 /**
