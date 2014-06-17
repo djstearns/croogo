@@ -130,6 +130,26 @@ class CroogoAppController extends Controller {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
+		
+		if ($this->RequestHandler->ext == 'json' && $this->action !='login')
+		{
+			$this->RequestHandler->setContent('json', 'application/json');
+			//Prevent debug output that'll corrupt your json data
+			
+			if(isset($_POST['token'])){
+				
+				$this->loadModel('Users.User');
+				$token = $_POST['token'];
+				$mobileuser = $this->User->authenticateMobile($token);
+				
+				$this->Auth->login($mobileuser['User']);
+			
+				
+			}
+		}
+		//end quickappv1
+
+		
 		$aclFilterComponent = Configure::read('Site.acl_plugin') . 'Filter';
 		if (empty($this->{$aclFilterComponent})) {
 			throw new MissingComponentException(array('class' => $aclFilterComponent));
