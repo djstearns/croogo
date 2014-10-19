@@ -13,12 +13,6 @@
 [submodule "Plugin/Project"]
 	path = Plugin/Project
 	url = https://github.com/djstearns/appcreator-plugin.git
-[submodule "Plugin/Auditlog"]
-	path = Plugin/Auditlog
-	url = https://github.com/djstearns/auditlog-plugin.git
 [submodule "Plugin/AuditLog"]
 	path = Plugin/AuditLog
-	url = https://github.com/djstearns/auditlog-plugin.git
-[submodule "Plugin/Audit_log"]
-	path = Plugin/Audit_log
 	url = https://github.com/djstearns/auditlog-plugin.git
