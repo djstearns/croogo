@@ -64,15 +64,17 @@ class Install extends InstallAppModel {
  */
 	public function setupDatabase() {
 		$plugins = Configure::read('Core.corePlugins');
-
+		
 		$migrationsSucceed = true;
 		foreach ($plugins as $plugin) {
+			
 			$migrationsSucceed = $this->runMigrations($plugin);
 			if (!$migrationsSucceed) {
 				break;
 			}
 		}
 
+	
 		if ($migrationsSucceed) {
 			$path = App::pluginPath('Install') . DS . 'Config' . DS . 'Data' . DS;
 			$dataObjects = App::objects('class', $path);

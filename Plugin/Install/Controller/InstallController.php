@@ -133,6 +133,7 @@ class InstallController extends Controller {
  * @access public
  */
 	public function data() {
+		
 		$this->_check();
 		$this->set('title_for_layout', __d('croogo', 'Step 2: Build database'));
 
@@ -148,6 +149,7 @@ class InstallController extends Controller {
 		}
 
 		if (isset($this->request->params['named']['run'])) {
+			
 			$this->Install->setupDatabase();
 
 			$InstallManager = new InstallManager();
