@@ -1,15 +1,15 @@
 [submodule "Locale"]
 	path = Locale
-	url = git://github.com/croogo/locale.git
+	url = https://github.com/croogo/locale.git
 [submodule "Migrations"]
 	path = Plugin/Migrations
-	url = git://github.com/CakeDC/migrations.git
+	url = https://github.com/CakeDC/migrations.git
 [submodule "Search"]
 	path = Plugin/Search
-	url = git://github.com/CakeDC/search.git
+	url = https://github.com/CakeDC/search.git
 [submodule "Ckeditor"]
 	path = Plugin/Ckeditor
-	url = git://github.com/croogo/Ckeditor.git
+	url = https://github.com/croogo/Ckeditor.git
 [submodule "Plugin/Project"]
 	path = Plugin/Project
 	url = https://github.com/djstearns/appcreator-plugin.git
