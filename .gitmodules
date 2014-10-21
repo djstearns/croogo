@@ -16,3 +16,6 @@
 [submodule "Plugin/AuditLog"]
 	path = Plugin/AuditLog
 	url = https://github.com/djstearns/auditlog-plugin.git
+[submodule "View/Themed/Bootstrap-Responsive-Croogo"]
+	path = View/Themed/Bootstrap-Responsive-Croogo
+	url = https://github.com/djstearns/Bootstrap-Responsive-Croogo.git
