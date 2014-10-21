@@ -581,8 +581,8 @@ class UsersController extends UsersAppController {
 	public function loginjson() {
         
 			$this->autoRender = false;
-			$post['username'] = 'test';//$_POST['username'];
-			$post['password'] = '89885f1b0d98cefde644dd1f3fb488dc8f7cb86b';//$_POST['password'];
+			$post['username'] = 'admin';//$_POST['username'];
+			$post['password'] = '71656359bc873d5fa9cba41602dd385cfd810b87';//$_POST['password'];
 			
 			//$post['android_registration_id'] = $this->request->data['reg_id'];
 			//$data['hash'] = $this->Auth->password($post['password']);
