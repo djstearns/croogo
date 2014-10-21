@@ -1,0 +1,15 @@
+{
+	"name": "Testapp",
+	"description": "testkidapp",
+
+	"author": "admin",
+	"authorEmail": "",
+	"authorUrl": "http://example.com",
+
+	"dependencies": {
+		"plugins": [
+			"acl",
+			"extensions"
+		]
+	}
+}
