@@ -14,7 +14,7 @@
 			'/croogo/css/select2',
 			'/croogo/css/jquery-ui-1.10.4.custom.min',
 			'/croogo/css/bootstrap-editable',
-			'/croogo/css/bootstrap-datetimepicker',
+			//'/croogo/css/bootstrap-datetimepicker',
 			'/croogo/css/bootstrap-tour-standalone',
 			'/croogo/css/bootstrap-tour'
 		));

@@ -586,7 +586,8 @@ class UsersController extends UsersAppController {
 			
 			//$post['android_registration_id'] = $this->request->data['reg_id'];
 			//$data['hash'] = $this->Auth->password($post['password']);
-			$check = $this->User->find('first',
+			
+            $check = $this->User->find('first',
 				array(
 					'conditions' => array(
 						'username' => $post['username'],

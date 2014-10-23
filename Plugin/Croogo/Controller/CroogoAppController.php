@@ -22,9 +22,18 @@ class CroogoAppController extends Controller {
  */
 	public $components = array(
 		'Croogo.Croogo',
-		'Security',
+		'Security' => array(
+            'csrfUseOnce' => false
+        ),
 		'Acl',
-		'Auth',
+		'Auth'=> array(
+            'authenticate' => array(
+                'Form' => array(
+                    'fields' => array('username' => 'email')
+                )
+            ),
+            'authorize' => 'Controller'
+        ),
 		'Session',
 		'RequestHandler',
 	);
@@ -130,12 +139,13 @@ class CroogoAppController extends Controller {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-		
+
 		if ($this->RequestHandler->ext == 'json' && $this->action !='login')
 		{
 			$this->RequestHandler->setContent('json', 'application/json');
 			//Prevent debug output that'll corrupt your json data
-			
+			$this->Security->csrfCheck = false;
+            $this->Security->validatePost = false;
 			if(isset($_POST['token'])){
 				
 				$this->loadModel('Users.User');
