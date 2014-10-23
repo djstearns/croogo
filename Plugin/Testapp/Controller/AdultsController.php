@@ -326,6 +326,7 @@ public function beforeFilter() {
 	}
     
     function mobiledelete($id = null) {
+        $this->autoRender = false;
     	if(!isset($id)){
         	$id = $_POST['id'];
        	}
