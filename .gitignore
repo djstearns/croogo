@@ -12,7 +12,7 @@ tmp/
 
 # Others
 .DS_Store
-./Plugin/*
+Plugin/*
 !./Plugin/Acl
 !./Plugin/Extensions
 !./Plugin/Example
