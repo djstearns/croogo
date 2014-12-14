@@ -6,10 +6,29 @@ It is powered by [CakePHP](http://cakephp.org) MVC framework.
 
 [![Build Status](https://secure.travis-ci.org/croogo/croogo.png)](http://travis-ci.org/croogo/croogo)
 
+
+*********
+*********
+
+This is a branch by djstearns for purposes of his appcreator application.
+Additional requirements of this branch are prefixed with “**DJS”
+
+The idea is to try to keep croogo’s version updated with modifications he may need to make with regard to administrative backends and areas.
+
+As of this version, there are several commits ahead “moving to vendor folders” which would require a large effort.
+
+This is the BASE project, no parent.
+
+*********
+*********
+
+
+
 ## Requirements
   * Apache with `mod_rewrite`
   * PHP 5.2 or higher
   * MySQL 4.1 or higher
+  **DJS - Croogo 1.5.7
 
 ## Installation
 
