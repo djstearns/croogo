@@ -17,7 +17,7 @@ The idea is to try to keep croogo’s version updated with modifications he may 
 
 As of this version, there are several commits ahead “moving to vendor folders” which would require a large effort.
 
-This is the BASE project, no parent.
+This is the 1st Child Project with parent of CakePHP here: https://github.com/djstearns/cakephp.
 
 *********
 *********
