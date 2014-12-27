@@ -19,6 +19,9 @@ As of this version, there are several commits ahead â€œmoving to vendor foldersâ
 
 This is the 1st Child Project with parent of CakePHP here: https://github.com/djstearns/cakephp.
 
+12/27/14 As I was installing on derek.indiebooker.com I noticed there is no "Lib" directory which is what I needed to make it work...
+
+
 *********
 *********
 
