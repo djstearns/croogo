@@ -20,7 +20,12 @@ As of this version, there are several commits ahead â€œmoving to vendor foldersâ
 This is the 1st Child Project with parent of CakePHP here: https://github.com/djstearns/cakephp.
 
 12/27/14 As I was installing on derek.indiebooker.com I noticed there is no "Lib" directory which is what I needed to make it work...
-
+also, this:
+GET http://derek.indiebooker.com/croogo/js/croogo-bootstrap.js 
+install:34 GET http://derek.indiebooker.com/croogo/js/jquery/jquery.min.js 
+install:8 GET http://derek.indiebooker.com/croogo/css/croogo-bootstrap.css 
+install:9 GET http://derek.indiebooker.com/croogo/css/croogo-bootstrap-responsive.css 
+install:70 Uncaught ReferenceError: $ is not defined
 
 *********
 *********
