@@ -145,7 +145,7 @@ class CroogoAppController extends Controller {
 			$this->RequestHandler->setContent('json', 'application/json');
 			//Prevent debug output that'll corrupt your json data
 			$this->Security->csrfCheck = false;
-     
+  
 			if(isset($_POST['token'])){
 				
 				$this->loadModel('Users.User');
@@ -209,7 +209,6 @@ class CroogoAppController extends Controller {
  * @return void
  */
 	public function securityError($type) {
-		debugger::dump(debugger::trace());
 		switch ($type) {
 			case 'auth':
 			break;
