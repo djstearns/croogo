@@ -19,3 +19,6 @@
 [submodule "View/Themed/Bootstrap-Responsive-Croogo"]
 	path = View/Themed/Bootstrap-Responsive-Croogo
 	url = https://github.com/djstearns/Bootstrap-Responsive-Croogo.git
+[submodule "Plugin/Braintree"]
+	path = Plugin/Braintree
+	url = https://github.com/djstearns/Croogo-Braintree-Plugin.git
