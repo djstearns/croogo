@@ -139,13 +139,13 @@ class CroogoAppController extends Controller {
  */
 	public function beforeFilter() {
 		parent::beforeFilter();
-
+		
 		if ($this->RequestHandler->ext == 'json' && $this->action !='login')
 		{
 			$this->RequestHandler->setContent('json', 'application/json');
 			//Prevent debug output that'll corrupt your json data
 			$this->Security->csrfCheck = false;
-            $this->Security->validatePost = false;
+     
 			if(isset($_POST['token'])){
 				
 				$this->loadModel('Users.User');
@@ -164,6 +164,7 @@ class CroogoAppController extends Controller {
 		if (empty($this->{$aclFilterComponent})) {
 			throw new MissingComponentException(array('class' => $aclFilterComponent));
 		}
+		
 		$this->{$aclFilterComponent}->auth();
 		$this->RequestHandler->setContent('json', array('text/x-json', 'application/json'));
 		$this->Security->blackHoleCallback = 'securityError';
@@ -199,6 +200,7 @@ class CroogoAppController extends Controller {
 		if (isset($this->request->params['locale'])) {
 			Configure::write('Config.language', $this->request->params['locale']);
 		}
+		
 	}
 
 /**
@@ -207,6 +209,7 @@ class CroogoAppController extends Controller {
  * @return void
  */
 	public function securityError($type) {
+		debugger::dump(debugger::trace());
 		switch ($type) {
 			case 'auth':
 			break;

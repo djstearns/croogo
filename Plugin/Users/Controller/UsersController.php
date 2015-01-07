@@ -32,6 +32,12 @@ class UsersController extends UsersAppController {
 			),
 		),
 	);
+	
+	public function beforeFilter() {
+		$this->Security->unlockedActions = array('loginjson', 'admin_edit');
+		$this->Auth->allow('loginjson');
+		parent::beforeFilter();
+	}
 
 /**
  * Preset Variables Search
@@ -191,7 +197,8 @@ class UsersController extends UsersAppController {
 	public function admin_edit($id = null) {
 		if (!empty($this->request->data)) {
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__d('croogo', 'The User has been saved'), 'default', array('class' => 'success'));
+				Croogo::dispatchEvent('Controller.Users.adminUserEditSuccess', $this, $this->request->data);
+				//$this->Session->setFlash(__d('croogo', 'The User has been saved'), 'default', array('class' => 'success'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__d('croogo', 'The User could not be saved. Please, try again.'), 'default', array('class' => 'error'));

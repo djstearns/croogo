@@ -168,7 +168,6 @@ class AclFilterComponent extends Component {
 	public function auth() {
 		$this->_configure();
 		$user = $this->_controller->Auth->user();
-
 		// authorization for authenticated user is handled by authorize object
 		if ($user) {
 			return;
