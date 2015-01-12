@@ -37,7 +37,9 @@ class UsersController extends UsersAppController {
 		
 		$this->Security->unlockedActions = array('loginjson', 'admin_edit');
 		$this->Auth->allow('loginjson');
+		
 		parent::beforeFilter();
+		
 	}
 
 /**
