@@ -33,7 +33,6 @@
  * In development mode, you need to click the flash message to continue.
  */
 Configure::write('debug', 2);
-
 /**
  * Configure the Error handler used to handle errors for your application.  By default
  * ErrorHandler::handleError() is used.  It will display errors using Debugger, when debug > 0
@@ -182,12 +181,12 @@ Configure::write('Session', array(
 /**
  * A random string used in security hashing methods.
  */
-Configure::write('Security.salt', 'bdbf5d143be4c5ec89f2d73f8d67e71aa3a9192a');
+Configure::write('Security.salt', '9771afa0450591ec7e0f64665311e42cc8137d13');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-Configure::write('Security.cipherSeed', '640985220590318611');
+Configure::write('Security.cipherSeed', '5593323861384715610');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).

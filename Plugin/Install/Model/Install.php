@@ -63,12 +63,14 @@ class Install extends InstallAppModel {
  * @return If migrations have succeeded
  */
 	public function setupDatabase() {
+
 		$plugins = Configure::read('Core.corePlugins');
-		
+	
 		$migrationsSucceed = true;
 		foreach ($plugins as $plugin) {
-			
+		
 			$migrationsSucceed = $this->runMigrations($plugin);
+                     
 			if (!$migrationsSucceed) {
 				break;
 			}
@@ -107,16 +109,19 @@ class Install extends InstallAppModel {
 	}
 
 	public function runMigrations($plugin) {
-		if (!CakePlugin::loaded($plugin)) {
+	
+                if (!CakePlugin::loaded($plugin)) {
 			CakePlugin::load($plugin);
 		}
 		return $this->_getCroogoPlugin()->migrate($plugin);
 	}
 
 	protected function _getCroogoPlugin() {
-		if (!($this->_CroogoPlugin instanceof CroogoPlugin)) {
+		
+                if (!($this->_CroogoPlugin instanceof CroogoPlugin)) {
 			$this->_setCroogoPlugin(new CroogoPlugin());
 		}
+
 		return $this->_CroogoPlugin;
 	}
 
