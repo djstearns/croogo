@@ -35,8 +35,8 @@ class TestappActivation {
 		// ACL: set ACOs with permissions
 		App::uses('ConnectionManager', 'Model');
 		
-		$db = ConnectionManager::getDataSource('default');
-		$db->rawQuery('CREATE TABLE IF NOT EXISTS kids (id INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar (50),age int (11),adult_id int (11),mom int (11));CREATE TABLE IF NOT EXISTS adults (id INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar (50));CREATE TABLE IF NOT EXISTS toys (id INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar (50));CREATE TABLE IF NOT EXISTS toys_kids (id INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY, kid_id int (11),toy_id int (11));');
+		//$db = ConnectionManager::getDataSource('default');
+		//$db->rawQuery('CREATE TABLE IF NOT EXISTS adults (id INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar (255),homeloc_lat decimal (9,6),homeloc_lng decimal (9,6),photo int (11));CREATE TABLE IF NOT EXISTS kids (id INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY, age int (11),adult_id int (11),mom int (11),name varchar (255),attachment_id int (11),birthday datetime,blonde int (1));CREATE TABLE IF NOT EXISTS toys (id INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar (255));CREATE TABLE IF NOT EXISTS toys_kids (id INT (11) NOT NULL AUTO_INCREMENT PRIMARY KEY, kid_id int (11),toy_id int (11));');
 		
 		App::uses('ShellDispatcher', 'Console');
 		App::uses('BakeShell', 'Console/Command');
@@ -50,16 +50,14 @@ class TestappActivation {
 		$thisshell = new Shell();
 		$thisshell->initialize();
 		
-		$thisshell->dispatchShell('Bake model Kids --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake model Adults --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake model Toys --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake model Toys_kids --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake controller Kids --plugin Testapp --theme project --admin -q');$thisshell->dispatchShell('Bake controller Adults --plugin Testapp --theme project --admin -q');$thisshell->dispatchShell('Bake controller Toys --plugin Testapp --theme project --admin -q');$thisshell->dispatchShell('Bake controller Toys_kids --plugin Testapp --theme project --admin -q');$thisshell->dispatchShell('Bake view Kids --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake view Adults --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake view Toys --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake view Toys_kids --plugin Testapp --theme project -q');
+		$thisshell->dispatchShell('Bake model Adults --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake model Kids --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake model Toys --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake model Toys_kids --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake controller Adults --plugin Testapp --theme project --admin -q');$thisshell->dispatchShell('Bake controller Kids --plugin Testapp --theme project --admin -q');$thisshell->dispatchShell('Bake controller Toys --plugin Testapp --theme project --admin -q');$thisshell->dispatchShell('Bake controller Toys_kids --plugin Testapp --theme project --admin -q');$thisshell->dispatchShell('Bake view Adults --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake view Kids --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake view Toys --plugin Testapp --theme project -q');$thisshell->dispatchShell('Bake view Toys_kids --plugin Testapp --theme project -q');
 		
 		Configure::write('Routing.prefixes', $oldprefix);
 		
 		App::uses('CroogoPlugin', 'Extensions.Lib');
 		$CroogoPlugin = new CroogoPlugin();
-		$CroogoPlugin->migrate('Testapp');
-		$controller->Croogo->addAco('Testapp/Testapp/admin_index'); // TestappController::admin_index()
-		$controller->Croogo->addAco('Testapp/Testapp/index', array('registered', 'public')); // TestappController::index()
-
+		//$CroogoPlugin->migrate('Testapp');
+		
 		$this->Link = ClassRegistry::init('Menus.Link');
 
 		// Main menu: add an Testapp link

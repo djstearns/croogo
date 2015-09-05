@@ -19,9 +19,10 @@ class TestappController extends TestappAppController {
  *
  * @var string
  * @access public
+ 	
  */
 	public $name = 'Testapp';
-	
+	public $MasterProjectArray = array();
 	public $_tables = array();
 /**
  * Models used by the Controller
@@ -114,9 +115,14 @@ class TestappController extends TestappAppController {
 		Alloy.Globals.RELATIONSHIP = {';
 		
 		$alloystr2 = '
-		if(Alloy.Globals.LocalDB == true){';
+		Alloy.Globals.LocalDB = true;
+		if(Alloy.Globals.LocalDB == true){
+			';
 		
 		$alloystr3 = "Alloy.Globals.PLUGIN = 'testapp/';";
+		
+		
+		
 		
 		foreach($schema['tables'] as $table => $fields) {
 			
@@ -124,8 +130,8 @@ class TestappController extends TestappAppController {
 				
 				$mymodel = ClassRegistry::Init($table);
 				 
-				 $alloystr2 .= 'Alloy.Collections.'.ucfirst($mymodel->name).' = Alloy.createCollection("'.$this->_singularName($mymodel->name).'");';
-				 
+				 $alloystr2 .= 'Alloy.Collections.'. ucfirst($this->_pluralName($mymodel->name)).' = Alloy.createCollection("'.$this->_singularName($mymodel->name).'");
+				 '; 
 				//2. build mobile model file
 				
 				$alloystr .= $this->bakeMobileModel($mymodel);
@@ -247,7 +253,8 @@ class TestappController extends TestappAppController {
 					'height' : 45
 				}
 			};
-			
+			//MAP includes
+			Alloy.Globals.map = require('ti.map');
 			//Global Post function
 			function globalsave(theurl, thedata, modelname, thelocaldata){
 				var sendit = Ti.Network.createHTTPClient({
@@ -631,7 +638,7 @@ class TestappController extends TestappAppController {
 		
 		if(!empty($data['associations']['hasAndBelongsToMany'])){
 			
-			$str .= '"related":{';
+			$str .= ', "related":{';
 			
 			foreach($data['associations']['hasAndBelongsToMany'] as $num => $relname){
 				$str .= '"'.strtolower($this->_pluralName($relname['alias'])).'":{
@@ -655,7 +662,7 @@ class TestappController extends TestappAppController {
 				$fldstr .= '"'.$key.'":"'.$vals['type'].'",'; 
 			}
 		}
-		//check this inflector!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
 		$fldstr = substr($fldstr, 0, -1);					
 		$out = '// File models/thing.js
 					exports.definition = {
@@ -695,7 +702,8 @@ class TestappController extends TestappAppController {
 		$pathx = rtrim(getcwd (),'webroot').'Plugin/Testapp/webroot/mobile/app/models/';
 		
 		$path = $pathx;
-		$filename = $path . Inflector::underscore($name) . '.js';
+		
+		$filename = $path . lcfirst($name) . '.js';
 		//$this->out("\nBaking model class for $name...");
 		$this->createFile($filename, $path, $out);
 		ClassRegistry::flush();
@@ -735,10 +743,11 @@ class TestappController extends TestappAppController {
 		}
 		//print_r($modelObj->hasAndBelongsToMany);
 		$totalrelations = count($data['associations']['belongsTo']) + count($data['associations']['hasMany']) + count($data['associations']['hasAndBelongsToMany']);
-		
+		/*
 		foreach($data['associations']['belongsTo'] as $num => $relname){
 			$relationstr .= "'".$this->_pluralName($relname['alias'])."',";					
 		}
+		*/
 		
 		foreach($data['associations']['hasMany'] as $num => $relname){
 			$relationstr .= "'".$this->_pluralName($relname['alias'])."',";
@@ -825,7 +834,7 @@ class TestappController extends TestappAppController {
 		$pathx = rtrim(getcwd (),'webroot').'Plugin/Testapp/webroot/mobile/app/controllers/';
 	
 		$path = $pathx;
-		$filename = $path . $this->_pluralName($name) . 'Add.js';
+		$filename = $path . Inflector::tableize($name) . 'Add.js';
 		//$this->out("\nBaking model class for $name...");
 		$this->createFile($filename, $path, $controllerAddStr);
 		
@@ -910,7 +919,7 @@ class TestappController extends TestappAppController {
 		$pathx = rtrim(getcwd (),'webroot').'Plugin/Testapp/webroot/mobile/app/controllers/';
 	
 		$path = $pathx;
-		$filename = $path . $this->_pluralName($name) . 'chooser.js';
+		$filename = $path . Inflector::tableize($name) . 'chooser.js';
 		//$this->out("\nBaking model class for $name...");
 		$this->createFile($filename, $path, $chooseStr);
 		
@@ -919,8 +928,52 @@ class TestappController extends TestappAppController {
 		create detail controller
 		///////////////////////////
 		*/
-		$datatrans = '';
 		
+		/////NEED TO FIX NEW CONTROLLER CODE BELOW and add ability to find photo type fields here!!!!!!!!!!
+		////show dialog
+		$photostr = '';
+		
+			
+		$ProjectModel = classRegistry::init('Project.Project');
+		$PobjectModel = classRegistry::init('Project.Pobject');
+		$ProjectModel->bindModel(
+			array('hasMany' => array(
+						'Pobject' => array(
+							'className' => 'Project.Pobject'
+						)
+					)
+				),
+			array('hasMany' => array(
+						'Fld' => array(
+							'className' => 'Project.fld'
+						)
+					)
+				)	
+			);
+			
+		$PobjectModel->bindModel(
+			array('hasMany' => array(
+						'Fld' => array(
+							'className' => 'Project.fld'
+						)
+					)
+				)	
+			);	
+		$MasterProjectArray = $ProjectModel->find('all', array('recursive'=>2, 'contain'=>array('Pobject','Pobject.Fld'), 'conditions'=>array('name'=>'testapp')));
+		$MasterProjectArray = Set::combine($MasterProjectArray[0]['Pobject'], '{n}.name', '{n}.Fld');
+		
+		foreach($MasterProjectArray as $obj => $flds){
+			foreach($flds as $i => $fld){
+				$MasterProjectArray[$obj][$fld['name']] = $fld;
+				//debugger::dump($test[$obj][$i]);
+				unset($MasterProjectArray[$obj][$i]);
+				//debugger::dump($fld);
+			}
+			
+		};
+		
+		$datatrans = '';
+		$datefieldpickerstr = '';
 		foreach($modelArr as $key => $vals){
 			if($key != 'id'){
 				$datatrans .= $key.':_model.attributes.'.$key.',';
@@ -928,10 +981,62 @@ class TestappController extends TestappAppController {
 				$cfldstr3 .= 'itemModel.set("'.$key.'", $.'.$key.'.value);
 				';
 			}
+			if($vals['type']=='datetime'){
+				$datefieldpickerstr .= "
+				
+				$.".$key.".addEventListener('click', function(e){
+					Ti.UI.backgroundColor = 'white';
+					var ".$key."datemodal = Ti.UI.createWindow({
+					  exitOnClose: true,
+					  layout: 'vertical'
+					});
+					
+					var ".$key."picker = Ti.UI.createPicker({
+					  type:Ti.UI.PICKER_TYPE_DATE,
+					  minDate:new Date(1900,1,1),
+					  maxDate:new Date(2015,12,31),
+					  value:new Date(2014,3,12),
+					  top:50
+					});
+					
+					var ".$key."closebtn = Ti.UI.createButton({
+						title:'Close',
+						width:100,
+						height:30
+					});
+					".$key."closebtn.addEventListener('click',function()
+					{
+						".$key."datemodal.close();
+					});
+					
+					".$key."datemodal.add(".$key."picker);
+					".$key."datemodal.add(b".$key."closebtn);
+					".$key."datemodal.open({modal:true});
+					
+					".$key."picker.addEventListener('change',function(e){
+					  //Ti.API.info('User selected date: ' + e.value.toLocaleString());
+					  $.".$key.".value = e.value.toLocaleString();
+					});
+				});
+				
+				";
+			}
+			if(array_key_exists($key, $MasterProjectArray[Inflector::tableize($name)])){
+				//photo!!
+				
+				if($MasterProjectArray[Inflector::tableize($name)][$key]['objectlink'] == -4){
+					$photostr .= "$.".$key.".addEventListener('click', function(e){
+										
+										dialogChange.show();
+									});";
+					
+				}
+			
+			}
 		}
 		
 		$cfldstr = substr($fldstr, 0, -1);
-		$cfldstr2 = substr($fldstr2, 0, -1);
+		//$cfldstr2 = substr($fldstr2, 0, -1);
 		
 		$detailStr =
 		"///**************
@@ -1006,6 +1111,179 @@ class TestappController extends TestappAppController {
 			};
 		}
 		
+		/*
+		IF there is a date field we need to add this code: 
+		
+		
+		$.birthday.addEventListener('click', function(e){
+			Ti.UI.backgroundColor = 'white';
+			var winpop = Ti.UI.createWindow({
+			  exitOnClose: true,
+			  layout: 'vertical'
+			});
+			
+			var picker = Ti.UI.createPicker({
+			  type:Ti.UI.PICKER_TYPE_DATE,
+			  minDate:new Date(2009,0,1),
+			  maxDate:new Date(2014,11,31),
+			  value:new Date(2014,3,12),
+			  top:50
+			});
+			
+			var b = Ti.UI.createButton({
+				title:'Close',
+				width:100,
+				height:30
+			});
+			b.addEventListener('click',function()
+			{
+				winpop.close();
+			});
+			
+			winpop.add(picker);
+			winpop.add(b);
+			winpop.open({modal:true});
+			
+			picker.addEventListener('change',function(e){
+			  //Ti.API.info('User selected date: ' + e.value.toLocaleString());
+			  $.birthday.value = e.value.toLocaleString();
+			});
+		});
+		
+		
+		*/
+		
+		
+			var dialogChange = Titanium.UI.createOptionDialog({
+				//title of dialog
+				title: 'View or Change Image...',
+				//options
+				options: ['View','Change', 'Cancel'],
+				//index of cancel button
+				cancel:2
+			});
+			
+			var dialog = Titanium.UI.createOptionDialog({
+				//title of dialog
+				title: 'Choose an image source...',
+				//options
+				options: ['Camera','Photo Gallery', 'Cancel'],
+				//index of cancel button
+				cancel:2
+			});
+			
+			dialogChange.addEventListener('click', function(e) {
+				if(e.index == 0){
+					//open a view and show the image
+				}else{
+					dialog.show();
+				}
+			});
+			 
+			
+			 
+			//add event listener
+			dialog.addEventListener('click', function(e) {
+				//if first option was selected
+				if(e.index == 0){
+					//then we are getting image from camera
+					Titanium.Media.showCamera({
+						//we got something
+						success:function(event){
+							//getting media
+							var image = event.media; 
+							 
+							//checking if it is photo
+							if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO){
+								//we may create image view with contents from image variable
+								//or simply save path to image
+								//save for future use
+								var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'photo' + $.name.datid + '.png');
+								f.write(image);
+					
+								// update the model and save
+								$[e.source.obj].value = f.nativePath;
+								//Ti.App.Properties.setString('image', image.nativePath);
+							}
+						},
+						cancel:function(){
+							//do somehting if user cancels operation
+						},
+						error:function(error)
+						{
+							//error happend, create alert
+							var a = Titanium.UI.createAlertDialog({title:'Camera'});
+							//set message
+							if (error.code == Titanium.Media.NO_CAMERA){
+								a.setMessage('Device does not have camera');
+							}else{
+								a.setMessage('Unexpected error: ' + error.code);
+							}
+			 
+							// show alert
+							a.show();
+						},
+						allowImageEditing:true,
+						saveToPhotoGallery:true
+					});
+				}else if(e.index == 1){
+					//obtain an image from the gallery
+					Titanium.Media.openPhotoGallery({
+						success:function(event){
+							//getting media
+							var image = event.media; 
+							// set image view
+							//checking if it is photo
+							if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO){
+								//we may create image view with contents from image variable
+								//or simply save path to image
+								var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'photo' + $.name.datid + '.png');
+								f.write(image);
+								//upload photo
+								var xhr = Ti.Network.createHTTPClient({
+								    onerror: function(e){
+								        Ti.API.info('ERROR: ' + e.error);
+								        alert('fail');
+								    },
+								    onload:function(e) {
+								        //Ti.API.info('STATUS: ' + this.status + ' READY_STATE: ' + this.readyState);                     
+								        //alert('success');
+								    },
+								   
+								    onsendstream:function(e){
+								       // Ti.API.info('PROGRESS: ' + e.progress);
+								    }
+						    	});
+							    xhr.open('POST','http://www.derekstearns.com/appcreator/file_manager/attachments/upload'); //a directory on server for test
+							    xhr.setRequestHeader('enctype', 'multipart/form-data');
+							    xhr.send({file:event.media});
+								// update the model and save
+								$[e.source.obj].value = f.nativePath;
+								//Ti.App.Properties.setString('image', image.nativePath); 
+							}   
+						},
+						cancel:function(){
+							//user cancelled the action fron within
+							//the photo gallery
+						}
+					});
+				}
+				else
+				{
+					//cancel was tapped
+					//user opted not to choose a photo
+				}
+			});
+			
+			
+			
+		".$photostr."
+		
+		
+		//Pickers!
+		".$datefieldpickerstr."
+		
+		
 		///Buttons!
 		
 		$.cancelbtn.addEventListener('click', function(){
@@ -1061,7 +1339,7 @@ class TestappController extends TestappAppController {
 		$pathx = rtrim(getcwd (),'webroot').'Plugin/Testapp/webroot/mobile/app/controllers/';
 	
 		$path = $pathx;
-		$filename = $path . $this->_pluralName($name) . 'detail.js';
+		$filename = $path . Inflector::tableize($name) . 'detail.js';
 		//$this->out("\nBaking model class for $name...");
 		$this->createFile($filename, $path, $detailStr);
 		
@@ -1213,9 +1491,9 @@ class TestappController extends TestappAppController {
 		*/
 		$filestr = "
 			var singlename = '".$this->_singularName($name)."';
-			var modelname = '".$this->_pluralName($name)."';
+			var modelname = '".Inflector::tableize($name)."';
 			var Modelname = '".ucfirst($name)."';
-			var tblname = '".$this->_pluralName($name)."';
+			var tblname = '".Inflector::tableize($name)."';
 			";
 		
 		if($totalrelations > 1){
@@ -1229,7 +1507,7 @@ class TestappController extends TestappAppController {
 					//var hasmultimanytomay = false;
 					";
 		}else{
-			if($relationstr = ''){
+			if($relationstr == ''){
 				
 				$filestr .="
 						//foreach manytomany get list and add 'cancel'
@@ -1249,7 +1527,7 @@ class TestappController extends TestappAppController {
 						var ManyToManys = '';//['related widgets', 'Some Other', 'And another','Yet another','Cancel'];
 						//var hasmultimanytomany = true;
 						//ELSE PRINT
-						var ManyToMany = '".$relationstr."';
+						var ManyToMany = ".$relationstr.";
 						var hasmultimanytomany = false;			
 						//Arguments coming in:
 						//var hasmultimanytomay = false;
@@ -1637,7 +1915,8 @@ class TestappController extends TestappAppController {
 			$pathx = rtrim(getcwd (),'webroot').'Plugin/Testapp/webroot/mobile/app/controllers/';
 			
 			$path = $pathx;
-			$filename = $path . Inflector::underscore($this->_pluralName($name)) . '.js';
+			//WAS: $filename = $path . Inflector::underscore($this->_pluralName($name)) . '.js';
+			$filename = $path . lcfirst($this->_pluralName($name)) . '.js';
 			//$this->out("\nBaking model class for $name...");
 			$this->createFile($filename, $path, $filestr);
 	   
@@ -1727,10 +2006,98 @@ class TestappController extends TestappAppController {
 		create detail view FILE
 		///////////////////////////
 		*/
+		//load project fields???
+		$ProjectModel = classRegistry::init('Project.Project');
+		$PobjectModel = classRegistry::init('Project.Pobject');
+		
+		$ProjectModel->bindModel(
+			array('hasMany' => array(
+						'Pobject' => array(
+							'className' => 'Project.Pobject'
+						)
+					)
+				),
+			array('hasMany' => array(
+						'Fld' => array(
+							'className' => 'Project.fld'
+						)
+					)
+				)	
+			);
+			
+		$PobjectModel->bindModel(
+			array('hasMany' => array(
+						'Fld' => array(
+							'className' => 'Project.fld'
+						)
+					)
+				)	
+			);	
+		$MasterProjectArray = $ProjectModel->find('all', array('recursive'=>2, 'contain'=>array('Pobject','Pobject.Fld'), 'conditions'=>array('name'=>'testapp')));
+		$MasterProjectArray = Set::combine($MasterProjectArray[0]['Pobject'], '{n}.name', '{n}.Fld');
+		
+		foreach($MasterProjectArray as $obj => $flds){
+			foreach($flds as $i => $fld){
+				$MasterProjectArray[$obj][$fld['name']] = $fld;
+				//debugger::dump($test[$obj][$i]);
+				unset($MasterProjectArray[$obj][$i]);
+				//debugger::dump($fld);
+			}
+			
+		};//$name is the table name (PObject name)
+		//if objectlink == -4, attachment
+		//if objectlink == -5, user
+	
+		
+		
 		$cfldstrdetail = '';
 		foreach($modelArr as $key => $vals){
+			
+			//echo 'vals:'.$vals;
 			if($key != 'id' && $key != 'name'){
-				$cfldstrdetail .= '<TextField id="'.$key.'" value="{$.thingDetail.'.$key.'}" ></TextField>';
+				if(strpos($key, '_id') !== false){
+					
+					$strpos = strpos($key, '_id');
+					$cfldstrdetail .= '<TextField id="'.$key.'" value="{$.thingDetail.'.$key.'}" ></TextField>
+					';
+				//create extra feild (to show name of linked model
+					$cfldstrdetail .= '<TextField id="'.substr($key, 0, $strpos).'"></TextField>
+					';
+				//create extra button!
+					$addviewstr .= '<Button id="pick'.substr($key, 0, $strpos).'">'.substr($key, 0, $strpos).'</Button>
+					';
+				//check if field should be a switch:
+				}elseif($vals['type']=='integer' && $vals['length'] == 1){
+					$cfldstrdetail .= '<Switch id="'.$key.'" hintText="'.$key.'" value="{$.thingDetail.'.$key.'}" ></Switch>
+					';
+				//check if field should be map:	
+				}elseif( $vals['type']=='datetime'){
+					//TO DO put code here to include date
+					//$addviewstr .= '<Button id="choosedate">Change '.$key.' date'.'</Button>';
+						
+				}elseif( strpos($key, '_lng') !== false){
+					//TO DO put code here to include in plugins--ti.map
+						$cfldstrdetail .= '<TextField id="'.$key.'" hintText="'.$key.'" value="{$.thingDetail.'.$key.'}" ></TextField>
+					';
+						$cfldstrdetail .= '<View id="map" module="ti.map" width="100%" height="20%"/>
+					';
+					
+				}elseif(array_key_exists($key, $MasterProjectArray[Inflector::tableize($name)])){
+					//photo!!
+					
+					if($MasterProjectArray[Inflector::tableize($name)][$key]['objectlink'] == -4){
+						$cfldstrdetail .= '<TextField id="'.$key.'" hintText="'.$key.'" value="{$.thingDetail.'.$key.'}" ></TextField>
+					';
+						$cfldstrdetail .= '<ImageView id="'.$key.'image" image="{$.thingDetail.'.$key.'}" width="10" height="10" ></ImageView>
+					';
+					}
+					
+				}else{
+					//echo 'key:'.$key;
+					//default text view
+					$cfldstrdetail .= '<TextField id="'.$key.'" hintText="'.$key.'" value="{$.thingDetail.'.$key.'}" ></TextField>
+					';
+				}
 				
 			}
 		}
@@ -1740,7 +2107,7 @@ class TestappController extends TestappAppController {
 		
 		$detailStrView = 
 		'<Alloy>
-			<Model src="'.$this->_modelName($name).'" instance="true" id="thingDetail">
+			<Model src="'.$this->_modelName($name).'" instance="true" id="thingDetail" />
 			<Window id="detail" model="$.thingDetail" dataTransform="dataTransformation" layout="vertical"> 
 				<TextField id="name" datid = "{$.thingDetail.id}" value="{$.thingDetail.name}"  hintText="Name" ></TextField>
 				'.$cfldstrdetail.'
@@ -1754,7 +2121,7 @@ class TestappController extends TestappAppController {
 		$pathx = rtrim(getcwd (),'webroot').'Plugin/Testapp/webroot/mobile/app/views/';
 			
 		$path = $pathx;
-		$filename = $path . $this->_pluralName($name) . 'detail.xml';
+		$filename = $path . Inflector::tableize($name) . 'detail.xml';
 		//$this->out("\nBaking model class for $name...");
 		$this->createFile($filename, $path, $detailStrView);
 		
@@ -1797,7 +2164,7 @@ class TestappController extends TestappAppController {
 		$pathx = rtrim(getcwd (),'webroot').'Plugin/Testapp/webroot/mobile/app/views/';
 			
 		$path = $pathx;
-		$filename = $path . $this->_pluralName($name) . 'chooser.xml';
+		$filename = $path . Inflector::tableize($name) . 'chooser.xml';
 		//$this->out("\nBaking model class for $name...");
 		$this->createFile($filename, $path, $chooserStr);
 		
@@ -1817,7 +2184,7 @@ class TestappController extends TestappAppController {
 			$m2mEditStr = 
 			'<Alloy>
 			
-				<Model src="'.Inflector::tableize($name).'" instance="true" id="thingDetail">
+				<Model src="'.$this->_modelName($name).'" instance="true" id="thingDetail" />
 				<Window id="detail" model="$.thingDetail" dataTransform="dataTransformation" layout="vertical"> 
 					<!-- <TextField id="widget_id" datid = "{$.thingDetail.id}" value="{$.thingDetail.widget_id}"></TextField>-->
 				   
@@ -1843,6 +2210,11 @@ class TestappController extends TestappAppController {
 		///////////////////////////
 		*/
 		///$addviewstr ='';
+		/*
+		Array ( [id] => Array ( [type] => integer [null] => [default] => [length] => 10 [unsigned] => [key] => primary ) [name] => Array ( [type] => string [null] => [default] => [length] => 255 [collate] => utf8_unicode_ci [charset] => utf8 ) [homeloc_lat] => Array ( [type] => float [null] => [default] => [length] => [unsigned] => ) [homeloc_lng] => Array ( [type] => float [null] => [default] => [length] => [unsigned] => ) [photo] => Array ( [type] => integer [null] => [default] => [length] => 11 [unsigned] => ) ) Array ( [id] => Array ( [type] => integer [null] => [default] => [length] => 10 [unsigned] => [key] => primary ) [age] => Array ( [type] => integer [null] => [default] => [length] => 11 [unsigned] => ) [adult_id] => Array ( [type] => integer [null] => [default] => [length] => 11 [unsigned] => ) [mom] => Array ( [type] => integer [null] => [default] => [length] => 11 [unsigned] => ) [name] => Array ( [type] => string [null] => [default] => [length] => 255 [collate] => utf8_unicode_ci [charset] => utf8 ) [attachment_id] => Array ( [type] => integer [null] => [default] => [length] => 11 [unsigned] => ) [birthday] => Array ( [type] => datetime [null] => [default] => [length] => ) [blonde] => Array ( [type] => integer [null] => [default] => [length] => 1 [unsigned] => ) ) Array ( [id] => Array ( [type] => integer [null] => [default] => [length] => 10 [unsigned] => [key] => primary ) [name] => Array ( [type] => string [null] => [default] => [length] => 255 [collate] => utf8_unicode_ci [charset] => utf8 ) ) Array ( [id] => Array ( [type] => integer [null] => [default] => [length] => 10 [unsigned] => [key] => primary ) [kid_id] => Array ( [type] => integer [null] => [default] => [length] => 11 [unsigned] => ) [toy_id] => Array ( [type] => integer [null] => [default] => [length] => 11 [unsigned] => ) )
+		*/
+		
+		//TO DO: figure out how to tell if a field is a photo.
 		//print_r($modelArr);
 		foreach($modelArr as $key => $vals){
 			
@@ -1857,11 +2229,24 @@ class TestappController extends TestappAppController {
 					$addviewstr .= '<TextField id="'.substr($key, 0, $strpos).'"></TextField>';
 				//create extra button!
 					$addviewstr .= '<Button id="pick'.substr($key, 0, $strpos).'">'.substr($key, 0, $strpos).'</Button>';
+				//check if field should be a switch:
+				}elseif($vals['type']=='integer' && $vals['length'] == 1){
+					$addviewstr .= '<Switch id="'.$key.'" hintText="'.$key.'" value="{$.thingDetail.'.$key.'}" ></Switch>
+					';
+				//check if field should be map:	
+				}elseif( strpos($key, '_lng') !== false){
+					//TO DO put code here to include in plugins--ti.map
+						$addviewstr .= '<TextField id="'.$key.'" hintText="'.$key.'" value="{$.thingDetail.'.$key.'}" ></TextField>
+					';
+						$addviewstr .= '<View id="map" module="ti.map" width="100%" height="20%"/>';
+					
 				}else{
 					//echo 'key:'.$key;
+					//default text view
 					$addviewstr .= '<TextField id="'.$key.'" hintText="'.$key.'" value="{$.thingDetail.'.$key.'}" ></TextField>
 					';
 				}
+				
 			}
 		}
 		
@@ -1869,7 +2254,7 @@ class TestappController extends TestappAppController {
 		
 		$addStr = '
 		<Alloy>
-			<Model src="'.$this->_modelName($name).'" instance="true" id="thingDetail">
+			<Model src="'.$this->_modelName($name).'" instance="true" id="thingDetail" />
 			<Window id="AddWindow">
 				
 				<ScrollView id="addView" layout="vertical" >'.
@@ -1885,7 +2270,7 @@ class TestappController extends TestappAppController {
 		$pathx = rtrim(getcwd (),'webroot').'Plugin/Testapp/webroot/mobile/app/views/';
 			
 		$path = $pathx;
-		$filename = $path . $this->_pluralName($name) . 'Add.xml';
+		$filename = $path . Inflector::tableize($name) . 'Add.xml';
 		//$this->out("\nBaking model class for $name...");
 		$this->createFile($filename, $path, $addStr);
 		
@@ -1980,17 +2365,19 @@ class TestappController extends TestappAppController {
  */
 	function findHasOneAndMany(&$model, $associations) {
 		
-		$foreignKey = $this->_modelKey($model->name);
+		$foreignKey = $this->_modelKey($this->_singularName($model->name ));
 		//echo 'finding One and Many...<br />';
-		//debugger::dump($this->_tables->tables);
+		
 		foreach ($this->_tables as $mname => $otherTable) {
 			
 				//debugger::dump($mname);
 				//echo 'try getting table for '.$mname.'<br />';
 				$tempOtherModel = $this->_getModelObject($this->_modelName($mname), $mname);
+				//debugger::dump($tempOtherModel);
 				//echo 'got table for '.$mname.'<br />';
 				$modelFieldsTemp = $tempOtherModel->schema(true);
-				$pattern = '/_' . preg_quote($model->table, '/') . '|' . preg_quote($model->table, '/') . '_/';
+				//WAS: $pattern = '/_' . preg_quote($model->table, '/') . '|' . preg_quote($model->table, '/') . '_/';
+				$pattern = '/_' . preg_quote($model->table, '/') . '|' . preg_quote( $this->_singularName($model->name ), '/') . '_/';
 				//debugger::dump($pattern);
 				//echo 'pattern for tbl - '.$mname.':'.$pattern.'<br />';
 				$possibleJoinTable = preg_match($pattern , $mname);
@@ -2002,7 +2389,9 @@ class TestappController extends TestappAppController {
 				foreach ($modelFieldsTemp as $fieldName => $field) {
 					//echo 'fldname:'.$fieldName.'<br />';
 					$assoc = false;
+					//debugger::dump('if '.$fieldName.' != '.$model->primaryKey.' && '.$fieldName.' == '.$foreignKey.' then...');
 					if ($fieldName != $model->primaryKey && $fieldName == $foreignKey) {
+						
 						$assoc = array(
 							'alias' => $tempOtherModel->name,
 							'className' => $tempOtherModel->name,

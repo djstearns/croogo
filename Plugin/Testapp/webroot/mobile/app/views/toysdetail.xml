@@ -1,5 +1,5 @@
 <Alloy>
-			<Model src="Toy" instance="true" id="thingDetail">
+			<Model src="Toy" instance="true" id="thingDetail" />
 			<Window id="detail" model="$.thingDetail" dataTransform="dataTransformation" layout="vertical"> 
 				<TextField id="name" datid = "{$.thingDetail.id}" value="{$.thingDetail.name}"  hintText="Name" ></TextField>
 				

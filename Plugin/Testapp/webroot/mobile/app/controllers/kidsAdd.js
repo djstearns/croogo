@@ -10,11 +10,11 @@
 		
 			globalsave( Alloy.Globals.BASEURL+Alloy.Globals.PLUGIN+tblname+'/mobileadd/',
 			 {
-				 "name":$.name.value,"age":$.age.value,"adult_id":$.adult_id.value,"mom":$.mom.value
+				 "age":$.age.value,"adult_id":$.adult_id.value,"mom":$.mom.value,"name":$.name.value,"attachment_id":$.attachment_id.value,"birthday":$.birthday.value,"blonde":$.blonde.value
 			 },
 			 Modelname,
 			 {		
-					name:$.name.value,age:$.age.value,adult_id:$.adult_id.value,mom:$.mom.value
+					age:$.age.value,adult_id:$.adult_id.value,mom:$.mom.value,name:$.name.value,attachment_id:$.attachment_id.value,birthday:$.birthday.value,blonde:$.blonde.value
 			  }
 			 );
 			
@@ -27,10 +27,16 @@
 		Ti.App.addEventListener('changeadultfield',function(e){ 
 											$.adult_id.value = e.value;
 											$.adult.value = e.title;
+										 });Ti.App.addEventListener('changeattachmentfield',function(e){ 
+											$.attachment_id.value = e.value;
+											$.attachment.value = e.title;
 										 });
 		
 		$.pickadult.addEventListener('click', function(_e) {
 								var win=Alloy.createController('adultschooser').getView();
+								win.open();
+								});$.pickattachment.addEventListener('click', function(_e) {
+								var win=Alloy.createController('attachmentschooser').getView();
 								win.open();
 								});
 		

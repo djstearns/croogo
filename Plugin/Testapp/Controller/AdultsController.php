@@ -47,7 +47,8 @@ public function beforeFilter() {
            
            
                         
-            		$this->set(compact('adultdata'));
+            		$photos = $this->Adult->Photo->find('list', array('fields'=>array($this->Adult->Photo->displayField)));
+		$this->set(compact('adultdata', 'photos'));
             
         
 	}
@@ -101,6 +102,8 @@ public function beforeFilter() {
 				$this->Session->setFlash(__d('croogo', 'The adult could not be saved. Please, try again.'), 'default', array('class' => 'error'));
 			}
 		}
+		$photos = $this->Adult->Photo->find('list');
+		$this->set(compact('photos'));
 	}
 
 /**
@@ -118,6 +121,8 @@ public function beforeFilter() {
 				$this->Session->setFlash(__d('croogo', 'The adult could not be saved. Please, try again.'), 'default', array('class' => 'error'));
 			}
 		}
+		$photos = $this->Adult->Photo->find('list');
+		$this->set(compact('photos'));
 	}
 
 
@@ -143,6 +148,8 @@ public function beforeFilter() {
 			$options = array('conditions' => array('Adult.' . $this->Adult->primaryKey => $id));
 			$this->request->data = $this->Adult->find('first', $options);
 		}
+		$photos = $this->Adult->Photo->find('list');
+		$this->set(compact('photos'));
 	}
     
     
@@ -169,6 +176,8 @@ public function beforeFilter() {
 			$options = array('conditions' => array('Adult.' . $this->Adult->primaryKey => $id));
 			$this->request->data = $this->Adult->find('first', $options);
 		}
+		$photos = $this->Adult->Photo->find('list');
+		$this->set(compact('photos'));
 	}    
     
     
@@ -326,7 +335,6 @@ public function beforeFilter() {
 	}
     
     function mobiledelete($id = null) {
-        $this->autoRender = false;
     	if(!isset($id)){
         	$id = $_POST['id'];
        	}

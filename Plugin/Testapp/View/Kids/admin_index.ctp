@@ -14,13 +14,19 @@ $this->Html
 	   
 	<th><?php echo $this->Paginator->sort('id'); ?></th>
 	   
-	<th><?php echo $this->Paginator->sort('name'); ?></th>
-	   
 	<th><?php echo $this->Paginator->sort('age'); ?></th>
 	   
 	<th><?php echo $this->Paginator->sort('adult_id'); ?></th>
 	   
 	<th><?php echo $this->Paginator->sort('mom'); ?></th>
+	   
+	<th><?php echo $this->Paginator->sort('name'); ?></th>
+	   
+	<th><?php echo $this->Paginator->sort('attachment_id'); ?></th>
+	   
+	<th><?php echo $this->Paginator->sort('birthday'); ?></th>
+	   
+	<th><?php echo $this->Paginator->sort('blonde'); ?></th>
 		 
 					<?php echo '<th>Toy</th>'
  ?>
@@ -34,10 +40,12 @@ $this->Html
 <?php echo $this->Form->input($kid['Kid']['id'], array('type'=>'checkbox', 'class'=>'markdelete', 'value'=>$kid['Kid']['id'], 'label'=>false)); ?>
 	</td>
 		<td><?php echo $this->Html->link($kid['Kid']['id'], '#', array('id'=>'id','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'text', 'data-pk'=> $kid['Kid']['id'], 'class'=>'editable editable-click jclass', 'style'=>'display: inline;', 'other'=>'')); ?></td>
-		<td><?php echo $this->Html->link($kid['Kid']['name'], '#', array('id'=>'name','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'text', 'data-pk'=> $kid['Kid']['id'], 'class'=>'editable editable-click jclass', 'style'=>'display: inline;', 'other'=>'')); ?></td>
 		<td><?php echo $this->Html->link($kid['Kid']['age'], '#', array('id'=>'age','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'text', 'data-pk'=> $kid['Kid']['id'], 'class'=>'editable editable-click jclass', 'style'=>'display: inline;', 'other'=>'')); ?></td>
 		<td><?php echo $this->Html->link($kid['Adult']['name'], '#', array('data-source'=>$this->base.'/admin/'.$this->params['plugin'].'/adults/getlist' ,'id'=>'adult_id','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'select2', 'data-pk'=> $kid['Kid']['id'], 'class'=>'editable editable-click dclass-Adult', 'style'=>'display: inline;')); ?></td>
 		<td><?php echo $this->Html->link($kid['Mom']['name'], '#', array('data-source'=>$this->base.'/admin/'.$this->params['plugin'].'/adults/getlist' ,'id'=>'mom','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'select2', 'data-pk'=> $kid['Kid']['id'], 'class'=>'editable editable-click dclass-Mom', 'style'=>'display: inline;')); ?></td>
+		<td><?php echo $this->Html->link($kid['Kid']['name'], '#', array('id'=>'name','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'text', 'data-pk'=> $kid['Kid']['id'], 'class'=>'editable editable-click jclass', 'style'=>'display: inline;', 'other'=>'')); ?></td>
+		<td><?php echo $this->Html->link($kid['Attachment']['title'], '#', array('data-source'=>$this->base.'/admin/'.$this->params['plugin'].'/attachments/getlist' ,'id'=>'attachment_id','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'select2', 'data-pk'=> $kid['Kid']['id'], 'class'=>'editable editable-click dclass-Attachment', 'style'=>'display: inline;')); ?></td>
+		<td><?php echo $this->Html->link($kid['Kid']['birthday'], '#', array('value'=>$kid['Kid']['birthday'], 'id'=>'birthday','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'datetime', 'data-pk'=> $kid['Kid']['id'], 'class'=>'editable editable-click datetimepicker', 'style'=>'display: inline;')); ?></td>		<td><?php echo $this->Html->link($kid['Kid']['blonde'], '#', array('id'=>'blonde','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'text', 'data-pk'=> $kid['Kid']['id'], 'class'=>'editable editable-click jclass', 'style'=>'display: inline;', 'other'=>'')); ?></td>
 
 				 <td> <?php $arr = array(); 
 				 $j = 0;
@@ -105,6 +113,20 @@ $('.mclass-Toy').editable({
 				} 
 			});
  //fix me below!
+			var Attachmentslist = [];
+			$.each(<?php echo json_encode($attachments); ?>, function(k, v) {
+				Attachmentslist.push({id: k, text: v});
+			}); 
+			
+			$('.dclass-Attachment').editable({
+				source: Attachmentslist,
+				select2: {
+					width: 200,
+					placeholder: 'Select Attachment',
+					allowClear: true
+				} 
+			});
+ //fix me below!
 			var Momslist = [];
 			$.each(<?php echo json_encode($adults); ?>, function(k, v) {
 				Momslist.push({id: k, text: v});
@@ -115,6 +137,20 @@ $('.mclass-Toy').editable({
 				select2: {
 					width: 200,
 					placeholder: 'Select Mom',
+					allowClear: true
+				} 
+			});
+ //fix me below!
+			var Attachment_idslist = [];
+			$.each(<?php echo json_encode($attachments); ?>, function(k, v) {
+				Attachment_idslist.push({id: k, text: v});
+			}); 
+			
+			$('.dclass-Attachment_id').editable({
+				source: Attachment_idslist,
+				select2: {
+					width: 200,
+					placeholder: 'Select Attachment_id',
 					allowClear: true
 				} 
 			});

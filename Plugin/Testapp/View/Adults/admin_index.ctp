@@ -15,6 +15,12 @@ $this->Html
 	<th><?php echo $this->Paginator->sort('id'); ?></th>
 	   
 	<th><?php echo $this->Paginator->sort('name'); ?></th>
+	   
+	<th><?php echo $this->Paginator->sort('homeloc_lat'); ?></th>
+	   
+	<th><?php echo $this->Paginator->sort('homeloc_lng'); ?></th>
+	   
+	<th><?php echo $this->Paginator->sort('photo'); ?></th>
 			<th class="actions"><?php echo __d('croogo', 'Actions'); ?></th>
 	</tr>
 
@@ -26,6 +32,7 @@ $this->Html
 	</td>
 		<td><?php echo $this->Html->link($adult['Adult']['id'], '#', array('id'=>'id','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'text', 'data-pk'=> $adult['Adult']['id'], 'class'=>'editable editable-click jclass', 'style'=>'display: inline;', 'other'=>'')); ?></td>
 		<td><?php echo $this->Html->link($adult['Adult']['name'], '#', array('id'=>'name','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'text', 'data-pk'=> $adult['Adult']['id'], 'class'=>'editable editable-click jclass', 'style'=>'display: inline;', 'other'=>'')); ?></td>
+		<td><?php echo $this->Html->link($adult['Photo']['title'], '#', array('data-source'=>$this->base.'/admin/'.$this->params['plugin'].'/attachments/getlist' ,'id'=>'photo','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'select2', 'data-pk'=> $adult['Adult']['id'], 'class'=>'editable editable-click dclass-Photo', 'style'=>'display: inline;')); ?></td>
 		<td class="item-actions">
 			<?php echo $this->Croogo->adminRowAction('', array('action' => 'view', $adult['Adult']['id']), array('icon' => 'eye-open')); ?>
 			<?php echo $this->Croogo->adminRowAction('', array('action' => 'edit', $adult['Adult']['id']), array('icon' => 'pencil')); ?>
@@ -58,7 +65,21 @@ $('.deleteall').click( function (e) {
 $.fn.editable.defaults.mode = 'inline';
 
 $('.jclass').editable();
-		$(function(){
+//fix me below!
+			var Photoslist = [];
+			$.each(<?php echo json_encode($attachments); ?>, function(k, v) {
+				Photoslist.push({id: k, text: v});
+			}); 
+			
+			$('.dclass-Photo').editable({
+				source: Photoslist,
+				select2: {
+					width: 200,
+					placeholder: 'Select Photo',
+					allowClear: true
+				} 
+			});
+ 		$(function(){
 			$('.datetimepicker').editable({
 				format: 'yyyy-mm-dd hh:ii',    
 				viewformat: 'dd/mm/yyyy hh:ii',    

@@ -11,7 +11,7 @@
 	<tr>
 		<td><?php echo h($toysKid['ToysKid']['id']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($toysKid['Kid']['name'], array('controller' => 'kids', 'action' => 'view', $toysKid['Kid']['id'])); ?>
+			<?php echo $this->Html->link($toysKid['Kid']['age'], array('controller' => 'kids', 'action' => 'view', $toysKid['Kid']['id'])); ?>
 		</td>
 		<td>
 			<?php echo $this->Html->link($toysKid['Toy']['name'], array('controller' => 'toys', 'action' => 'view', $toysKid['Toy']['id'])); ?>

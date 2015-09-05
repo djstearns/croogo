@@ -3,16 +3,15 @@
 			var modelname = 'toys';
 			var Modelname = 'Toy';
 			var tblname = 'toys';
-			
-						//foreach manytomany get list and add 'cancel'
-						var ManyToManys = '';//['related widgets', 'Some Other', 'And another','Yet another','Cancel'];
-						//var hasmultimanytomany = true;
-						//ELSE PRINT
-						var ManyToMany = '';
-						var hasmultimanytomany = false;			
-						//Arguments coming in:
-						//var hasmultimanytomay = false;
-										
+			//foreach manytomany get list and add 'cancel'
+					var ManyToManys = ['toysKids','related kids', 'Cancel'];
+					var hasmultimanytomany = true;
+					//ELSE PRINT
+					var ManyToMany = '';//'yingredients';
+					//var hasmultimanytomay = false;			
+					//Arguments coming in:
+					//var hasmultimanytomay = false;
+									
 			var args = arguments[0] || {};
 			var parentTab = args.parentTab || '';
 			var manytomanyaddscreen = args.manytomanyaddscreen;

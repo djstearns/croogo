@@ -3,16 +3,18 @@
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('name'); ?></th>
 			<th><?php echo $this->Paginator->sort('age'); ?></th>
 			<th><?php echo $this->Paginator->sort('adult_id'); ?></th>
 			<th><?php echo $this->Paginator->sort('mom'); ?></th>
+			<th><?php echo $this->Paginator->sort('name'); ?></th>
+			<th><?php echo $this->Paginator->sort('attachment_id'); ?></th>
+			<th><?php echo $this->Paginator->sort('birthday'); ?></th>
+			<th><?php echo $this->Paginator->sort('blonde'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php foreach ($kids as $kid): ?>
 	<tr>
 		<td><?php echo h($kid['Kid']['id']); ?>&nbsp;</td>
-		<td><?php echo h($kid['Kid']['name']); ?>&nbsp;</td>
 		<td><?php echo h($kid['Kid']['age']); ?>&nbsp;</td>
 		<td>
 			<?php echo $this->Html->link($kid['Adult']['name'], array('controller' => 'adults', 'action' => 'view', $kid['Adult']['id'])); ?>
@@ -20,6 +22,12 @@
 		<td>
 			<?php echo $this->Html->link($kid['Mom']['name'], array('controller' => 'adults', 'action' => 'view', $kid['Mom']['id'])); ?>
 		</td>
+		<td><?php echo h($kid['Kid']['name']); ?>&nbsp;</td>
+		<td>
+			<?php echo $this->Html->link($kid['Attachment']['title'], array('controller' => 'attachments', 'action' => 'view', $kid['Attachment']['id'])); ?>
+		</td>
+		<td><?php echo h($kid['Kid']['birthday']); ?>&nbsp;</td>
+		<td><?php echo h($kid['Kid']['blonde']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $kid['Kid']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $kid['Kid']['id'])); ?>
@@ -48,6 +56,8 @@
 		<li><?php echo $this->Html->link(__('New Kid'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Adults'), array('controller' => 'adults', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Adult'), array('controller' => 'adults', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Attachments'), array('controller' => 'attachments', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Attachment'), array('controller' => 'attachments', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Toys'), array('controller' => 'toys', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Toy'), array('controller' => 'toys', 'action' => 'add')); ?> </li>
 	</ul>

@@ -66,6 +66,7 @@ class SettingsController extends SettingsAppController {
 		$this->set('settings', $this->paginate());
 	}
 
+
 /**
  * Admin view
  *

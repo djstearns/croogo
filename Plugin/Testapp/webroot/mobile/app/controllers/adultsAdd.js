@@ -10,11 +10,11 @@
 		
 			globalsave( Alloy.Globals.BASEURL+Alloy.Globals.PLUGIN+tblname+'/mobileadd/',
 			 {
-				 "name":$.name.value
+				 "name":$.name.value,"homeloc_lat":$.homeloc_lat.value,"homeloc_lng":$.homeloc_lng.value,"photo":$.photo.value
 			 },
 			 Modelname,
 			 {		
-					name:$.name.value
+					name:$.name.value,homeloc_lat:$.homeloc_lat.value,homeloc_lng:$.homeloc_lng.value,photo:$.photo.value
 			  }
 			 );
 			

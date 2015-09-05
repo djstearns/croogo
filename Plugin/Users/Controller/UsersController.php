@@ -200,7 +200,6 @@ class UsersController extends UsersAppController {
 	public function admin_edit($id = null) {
 		
 		if (!empty($this->request->data)) {
-			
 			if ($this->User->save($this->request->data)) {
 				Croogo::dispatchEvent('Controller.Users.adminUserEditSuccess', $this, $this->request->data);
 				//$this->Session->setFlash(__d('croogo', 'The User has been saved'), 'default', array('class' => 'success'));

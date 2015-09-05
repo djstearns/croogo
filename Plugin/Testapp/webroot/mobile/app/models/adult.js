@@ -4,7 +4,7 @@
 					  config: {
 						
 						  columns: {
-							  "id":"INTEGER PRIMARY KEY","name":"string"
+							  "id":"INTEGER PRIMARY KEY","name":"string","homeloc_lat":"float","homeloc_lng":"float","photo":"integer"
 							 
 						  },
 						  adapter: {

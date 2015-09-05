@@ -32,15 +32,15 @@ $this->Html
 
 				 <td> <?php $arr = array(); 
 				 $j = 0;
-				 $val = 5;
+				 $val = 8;
 				  foreach($toy['Kid'] as $key => $Kid){
 						 if(isset($toy['Kid'][$j]) && ($val < count($Kid)) ){
-				 			$arr[] = $Kid['name']; 
+				 			$arr[] = $Kid['age']; 
 							$j++;
 						 }
 				 }
 				 $str = implode(',',$arr); 
-					echo $this->Html->link($str, '#', array( 'id'=>'Kid__name','data-url'=>$this->here.'/savehabtmfld', 'data-type'=>'select2', 'data-pk'=> $toy['Toy']['id'], 'class'=>'editable editable-click mclass-Kid', 'style'=>'display: inline;')); ?></td>
+					echo $this->Html->link($str, '#', array( 'id'=>'Kid__age','data-url'=>$this->here.'/savehabtmfld', 'data-type'=>'select2', 'data-pk'=> $toy['Toy']['id'], 'class'=>'editable editable-click mclass-Kid', 'style'=>'display: inline;')); ?></td>
 					</td>
 		<td class="item-actions">
 			<?php echo $this->Croogo->adminRowAction('', array('action' => 'view', $toy['Toy']['id']), array('icon' => 'eye-open')); ?>

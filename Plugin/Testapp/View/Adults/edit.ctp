@@ -33,6 +33,15 @@ echo $this->Form->create('Adult');
 				echo $this->Form->input('name', array(
 					'label' => 'Name',
 				));
+				echo $this->Form->input('homeloc_lat', array(
+					'label' => 'Homeloc Lat',
+				));
+				echo $this->Form->input('homeloc_lng', array(
+					'label' => 'Homeloc Lng',
+				));
+				echo $this->Form->input('photo', array(
+					'label' => 'Photo',
+				));
 			?>
 			</div>
 			<?php echo $this->Croogo->adminTabs(); ?>

@@ -1,9 +1,9 @@
 {
 	"name": "Testapp",
-	"description": "testkidapp",
+	"description": "testapp",
 
 	"author": "admin",
-	"authorEmail": "",
+	"authorEmail": "someemail@gmail.com",
 	"authorUrl": "http://example.com",
 
 	"dependencies": {

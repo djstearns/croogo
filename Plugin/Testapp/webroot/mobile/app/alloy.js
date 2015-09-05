@@ -4,7 +4,13 @@ Alloy.Globals.PLUGIN = 'testapp/';Alloy.Globals.BASEURL = 'http://www.derekstear
 					"modelname":"adults",
 					"singlename":"adult",
 					"tblname":"adults",
-					"sModelname":"Adult",	},"kids":{
+					"sModelname":"Adult","kids":{
+							"relation":"HM",
+							"tblname":"kids",
+							"Modelname":"Kids",
+							"modelname":"kids",
+							"sModelname":"Kid"
+						}	},"kids":{
 					"Modelname":"Kids",
 					"modelname":"kids",
 					"singlename":"kid",
@@ -15,7 +21,13 @@ Alloy.Globals.PLUGIN = 'testapp/';Alloy.Globals.BASEURL = 'http://www.derekstear
 							"Modelname":"Adults",
 							"modelname":"adults",
 							"sModelname":"Adult"
-						}"related":{"toys":{
+						},"attachments":{
+							"relation":"BT",
+							"tblname":"attachments",
+							"Modelname":"Attachments",
+							"modelname":"attachments",
+							"sModelname":"Attachment"
+						}, "related":{"toys":{
 							"manytomanytblname":"toys_kids",
 							"manytomanyModelname":"ToysKids",
 							"manytomanymodelname":"toyskids"
@@ -24,7 +36,13 @@ Alloy.Globals.PLUGIN = 'testapp/';Alloy.Globals.BASEURL = 'http://www.derekstear
 					"modelname":"toys",
 					"singlename":"toy",
 					"tblname":"toys",
-					"sModelname":"Toy","related":{"kids":{
+					"sModelname":"Toy","toysKids":{
+							"relation":"HM",
+							"tblname":"toysKids",
+							"Modelname":"ToysKids",
+							"modelname":"toysKids",
+							"sModelname":"ToysKid"
+						}, "related":{"kids":{
 							"manytomanytblname":"toys_kids",
 							"manytomanyModelname":"ToysKids",
 							"manytomanymodelname":"toyskids"
@@ -47,7 +65,13 @@ Alloy.Globals.PLUGIN = 'testapp/';Alloy.Globals.BASEURL = 'http://www.derekstear
 							"sModelname":"Toy"
 						}	}};
 		
-		if(Alloy.Globals.LocalDB == true){Alloy.Collections.Adults = Alloy.createCollection("adult");Alloy.Collections.Kids = Alloy.createCollection("kid");Alloy.Collections.Toys = Alloy.createCollection("toy");Alloy.Collections.Toys_kids = Alloy.createCollection("toysKid");};
+		Alloy.Globals.LocalDB = true;
+		if(Alloy.Globals.LocalDB == true){
+			Alloy.Collections.Adults = Alloy.createCollection("adult");
+				 Alloy.Collections.Kids = Alloy.createCollection("kid");
+				 Alloy.Collections.Toys = Alloy.createCollection("toy");
+				 Alloy.Collections.ToysKids = Alloy.createCollection("toysKid");
+				 };
 		//:::::::APP CREATOR SYNC OPTIONS:::::::
 			//::::THE DB:::::::
 			//USER WILL BE ASKED: 'will there be an onboard DB?'
@@ -123,7 +147,8 @@ Alloy.Globals.PLUGIN = 'testapp/';Alloy.Globals.BASEURL = 'http://www.derekstear
 					'height' : 45
 				}
 			};
-			
+			//MAP includes
+			Alloy.Globals.map = require('ti.map');
 			//Global Post function
 			function globalsave(theurl, thedata, modelname, thelocaldata){
 				var sendit = Ti.Network.createHTTPClient({

@@ -172,30 +172,7 @@ CroogoNav::add('Testapp',
 			'title' => 'Testapp',
 			'url' => '#',
 			'children' => array(
-				'kids' => array(
-					'title' => 'Kids',
-					'url' => '#',
-					'children'=> array(
-					'List' => array(
-							'title' => 'List',
-							'url' => array(
-								'admin' => true,
-								'plugin' => 'testapp',
-								'controller' => 'kids',
-								'action' => 'index',
-							),
-						),
-						'Add' => array(
-							'title' => 'Add',
-							'url' => array(
-								'admin' => true,
-								'plugin' => 'testapp',
-								'controller' => 'kids',
-								'action' => 'add',
-							),
-						),
-					)
-				),'adults' => array(
+				'adults' => array(
 					'title' => 'Adults',
 					'url' => '#',
 					'children'=> array(
@@ -214,6 +191,29 @@ CroogoNav::add('Testapp',
 								'admin' => true,
 								'plugin' => 'testapp',
 								'controller' => 'adults',
+								'action' => 'add',
+							),
+						),
+					)
+				),'kids' => array(
+					'title' => 'Kids',
+					'url' => '#',
+					'children'=> array(
+					'List' => array(
+							'title' => 'List',
+							'url' => array(
+								'admin' => true,
+								'plugin' => 'testapp',
+								'controller' => 'kids',
+								'action' => 'index',
+							),
+						),
+						'Add' => array(
+							'title' => 'Add',
+							'url' => array(
+								'admin' => true,
+								'plugin' => 'testapp',
+								'controller' => 'kids',
 								'action' => 'add',
 							),
 						),

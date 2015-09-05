@@ -6,11 +6,6 @@
 			<?php echo h($kid['Kid']['id']); ?>
 			&nbsp;
 		</dd>
-		<dt><?php echo __('Name'); ?></dt>
-		<dd>
-			<?php echo h($kid['Kid']['name']); ?>
-			&nbsp;
-		</dd>
 		<dt><?php echo __('Age'); ?></dt>
 		<dd>
 			<?php echo h($kid['Kid']['age']); ?>
@@ -26,6 +21,26 @@
 			<?php echo $this->Html->link($kid['Mom']['name'], array('controller' => 'adults', 'action' => 'view', $kid['Mom']['id'])); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Name'); ?></dt>
+		<dd>
+			<?php echo h($kid['Kid']['name']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Attachment'); ?></dt>
+		<dd>
+			<?php echo $this->Html->link($kid['Attachment']['title'], array('controller' => 'attachments', 'action' => 'view', $kid['Attachment']['id'])); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Birthday'); ?></dt>
+		<dd>
+			<?php echo h($kid['Kid']['birthday']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Blonde'); ?></dt>
+		<dd>
+			<?php echo h($kid['Kid']['blonde']); ?>
+			&nbsp;
+		</dd>
 	</dl>
 </div>
 <div class="actions">
@@ -37,6 +52,8 @@
 		<li><?php echo $this->Html->link(__('New Kid'), array('action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Adults'), array('controller' => 'adults', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Adult'), array('controller' => 'adults', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Attachments'), array('controller' => 'attachments', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Attachment'), array('controller' => 'attachments', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Toys'), array('controller' => 'toys', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Toy'), array('controller' => 'toys', 'action' => 'add')); ?> </li>
 	</ul>

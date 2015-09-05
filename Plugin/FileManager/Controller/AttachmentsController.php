@@ -84,7 +84,7 @@ class AttachmentsController extends FileManagerAppController {
 		));
 		$this->set('type', $this->Attachment->type);
 
-		if ($this->action == 'admin_add') {
+		if ($this->action == 'admin_add' || $this->action == 'upload' ) {
 			$this->Security->csrfCheck = false;
 		}
 	}
@@ -124,6 +124,7 @@ class AttachmentsController extends FileManagerAppController {
 			}
 
 			$this->Attachment->create();
+			//debugger::dump($this->request->data);
 			if ($this->Attachment->save($this->request->data)) {
 
 				$this->Session->setFlash(__d('croogo', 'The Attachment has been saved'), 'default', array('class' => 'success'));
@@ -202,5 +203,19 @@ class AttachmentsController extends FileManagerAppController {
 		$this->layout = 'admin_popup';
 		$this->admin_index();
 	}
+	
+	public function getdata(){
+		
+	}
+	
+	public function upload(){
+		//debugger::dump('test');
+		$this->autoRender = false;
+		$this->Attachment->create();
+		$result = $this->Attachment->save($this->request->data);
+		echo json_encode($result);
+	}
+	
+	
 
 }

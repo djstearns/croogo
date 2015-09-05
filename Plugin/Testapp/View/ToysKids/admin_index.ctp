@@ -27,7 +27,7 @@ $this->Html
 <?php echo $this->Form->input($toysKid['ToysKid']['id'], array('type'=>'checkbox', 'class'=>'markdelete', 'value'=>$toysKid['ToysKid']['id'], 'label'=>false)); ?>
 	</td>
 		<td><?php echo $this->Html->link($toysKid['ToysKid']['id'], '#', array('id'=>'id','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'text', 'data-pk'=> $toysKid['ToysKid']['id'], 'class'=>'editable editable-click jclass', 'style'=>'display: inline;', 'other'=>'')); ?></td>
-		<td><?php echo $this->Html->link($toysKid['Kid']['name'], '#', array('data-source'=>$this->base.'/admin/'.$this->params['plugin'].'/kids/getlist' ,'id'=>'kid_id','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'select2', 'data-pk'=> $toysKid['ToysKid']['id'], 'class'=>'editable editable-click dclass-Kid', 'style'=>'display: inline;')); ?></td>
+		<td><?php echo $this->Html->link($toysKid['Kid']['age'], '#', array('data-source'=>$this->base.'/admin/'.$this->params['plugin'].'/kids/getlist' ,'id'=>'kid_id','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'select2', 'data-pk'=> $toysKid['ToysKid']['id'], 'class'=>'editable editable-click dclass-Kid', 'style'=>'display: inline;')); ?></td>
 		<td><?php echo $this->Html->link($toysKid['Toy']['name'], '#', array('data-source'=>$this->base.'/admin/'.$this->params['plugin'].'/toys/getlist' ,'id'=>'toy_id','data-url'=>$this->here.'/editindexsavefld', 'data-type'=>'select2', 'data-pk'=> $toysKid['ToysKid']['id'], 'class'=>'editable editable-click dclass-Toy', 'style'=>'display: inline;')); ?></td>
 		<td class="item-actions">
 			<?php echo $this->Croogo->adminRowAction('', array('action' => 'view', $toysKid['ToysKid']['id']), array('icon' => 'eye-open')); ?>

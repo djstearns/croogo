@@ -7,8 +7,8 @@ $this->Html
 	->addCrumb(__d('croogo', 'Kids'), array('action' => 'index'));
 
 if ($this->action == 'admin_edit') {
-	$this->Html->addCrumb($this->data['Kid']['name'], '/' . $this->request->url);
-	$this->viewVars['title_for_layout'] = 'Kids: ' . $this->data['Kid']['name'];
+	$this->Html->addCrumb($this->data['Kid']['age'], '/' . $this->request->url);
+	$this->viewVars['title_for_layout'] = 'Kids: ' . $this->data['Kid']['age'];
 } else {
 	$this->Html->addCrumb(__d('croogo', 'Add'), '/' . $this->request->url);
 }

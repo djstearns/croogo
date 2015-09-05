@@ -48,7 +48,9 @@ public function beforeFilter() {
            
                         
             		$adults = $this->Kid->Adult->find('list', array('fields'=>array($this->Kid->Adult->displayField)));
+		$attachments = $this->Kid->Attachment->find('list', array('fields'=>array($this->Kid->Attachment->displayField)));
 		$moms = $this->Kid->Mom->find('list', array('fields'=>array($this->Kid->Mom->displayField)));
+		$attachmentIds = $this->Kid->AttachmentId->find('list', array('fields'=>array($this->Kid->AttachmentId->displayField)));
 		$toys = $this->Kid->Toy->find('list', array('fields'=>array($this->Kid->Toy->displayField)));
 
                             $arr = array();
@@ -56,7 +58,7 @@ public function beforeFilter() {
                                 $arr[] = $i;
                             }
                             $toystr = json_encode($arr);
-                        		$this->set(compact('kiddata', 'adults', 'moms', 'toystr'));
+                        		$this->set(compact('kiddata', 'adults', 'attachments', 'moms', 'attachmentIds', 'toystr'));
             
         
 	}
@@ -111,9 +113,11 @@ public function beforeFilter() {
 			}
 		}
 		$adults = $this->Kid->Adult->find('list');
+		$attachments = $this->Kid->Attachment->find('list');
 		$moms = $this->Kid->Mom->find('list');
+		$attachmentIds = $this->Kid->AttachmentId->find('list');
 		$toys = $this->Kid->Toy->find('list');
-		$this->set(compact('adults', 'moms', 'toys'));
+		$this->set(compact('adults', 'attachments', 'moms', 'attachmentIds', 'toys'));
 	}
 
 /**
@@ -132,9 +136,11 @@ public function beforeFilter() {
 			}
 		}
 		$adults = $this->Kid->Adult->find('list');
+		$attachments = $this->Kid->Attachment->find('list');
 		$moms = $this->Kid->Mom->find('list');
+		$attachmentIds = $this->Kid->AttachmentId->find('list');
 		$toys = $this->Kid->Toy->find('list');
-		$this->set(compact('adults', 'moms', 'toys'));
+		$this->set(compact('adults', 'attachments', 'moms', 'attachmentIds', 'toys'));
 	}
 
 
@@ -161,9 +167,11 @@ public function beforeFilter() {
 			$this->request->data = $this->Kid->find('first', $options);
 		}
 		$adults = $this->Kid->Adult->find('list');
+		$attachments = $this->Kid->Attachment->find('list');
 		$moms = $this->Kid->Mom->find('list');
+		$attachmentIds = $this->Kid->AttachmentId->find('list');
 		$toys = $this->Kid->Toy->find('list');
-		$this->set(compact('adults', 'moms', 'toys'));
+		$this->set(compact('adults', 'attachments', 'moms', 'attachmentIds', 'toys'));
 	}
     
     
@@ -191,9 +199,11 @@ public function beforeFilter() {
 			$this->request->data = $this->Kid->find('first', $options);
 		}
 		$adults = $this->Kid->Adult->find('list');
+		$attachments = $this->Kid->Attachment->find('list');
 		$moms = $this->Kid->Mom->find('list');
+		$attachmentIds = $this->Kid->AttachmentId->find('list');
 		$toys = $this->Kid->Toy->find('list');
-		$this->set(compact('adults', 'moms', 'toys'));
+		$this->set(compact('adults', 'attachments', 'moms', 'attachmentIds', 'toys'));
 	}    
     
     

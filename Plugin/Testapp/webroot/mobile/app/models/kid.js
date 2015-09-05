@@ -4,7 +4,7 @@
 					  config: {
 						
 						  columns: {
-							  "id":"INTEGER PRIMARY KEY","name":"string","age":"integer","adult_id":"integer","mom":"integer"
+							  "id":"INTEGER PRIMARY KEY","age":"integer","adult_id":"integer","mom":"integer","name":"string","attachment_id":"integer","birthday":"datetime","blonde":"integer"
 							 
 						  },
 						  adapter: {

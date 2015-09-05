@@ -1,9 +1,12 @@
 
 		<Alloy>
-			<Model src="Adult" instance="true" id="thingDetail">
+			<Model src="Adult" instance="true" id="thingDetail" />
 			<Window id="AddWindow">
 				
 				<ScrollView id="addView" layout="vertical" ><TextField id="name" hintText="name" value="{$.thingDetail.name}" ></TextField>
+					<TextField id="homeloc_lat" hintText="homeloc_lat" value="{$.thingDetail.homeloc_lat}" ></TextField>
+					<TextField id="homeloc_lng" hintText="homeloc_lng" value="{$.thingDetail.homeloc_lng}" ></TextField>
+					<View id="map" module="ti.map" width="100%" height="20%"/><TextField id="photo" hintText="photo" value="{$.thingDetail.photo}" ></TextField>
 					
 					
 					<Button id="savebtn" title="Save"></Button>
